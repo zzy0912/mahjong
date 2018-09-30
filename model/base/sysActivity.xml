@@ -1,0 +1,43 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="Activity" disabled-default-fields="step;workflow" log-activity="false" permission-belong-to="org" permission-config-scope="belongTo" >
+    <fields>
+        <field name="creator" type="user" label="操作者" />
+        <field name="createTime" type="dateTime" label="操作时间" />
+        <field name="label" type="string" label="操作内容" />
+        <field name="action" type="string" label="操作动作" />
+	    <field name="type" type="enum:type" label="活动类型" />
+        <field name="workItem" type="$commonModel" label="操作对象" />
+	    <field name="message" type="text" label="操作记录"/>
+        
+    </fields>
+    
+    <enums>
+        <enum name="type" label="活动类型">
+            <item name="setting" label="设置">
+                <description>
+                    <en_US>org, user,orgRoleUser等表</en_US>
+                    <zh_CN>组织配置,用户配置</zh_CN>
+                </description>
+            </item>
+            
+            <item name="access" label="访问">
+                <description>
+                    <en_US>login, logout</en_US>
+                    <zh_CN>登陆,登出</zh_CN>
+                </description>
+            </item>
+            
+            <item name="model" label="模型" />
+            
+        </enum>
+    </enums>
+    
+    <permission>
+        <action name="list" label="列举">
+            <rule user="admin" build-in="true"/>
+            <rule org="$companyOrg" role="member" build-in="false" />
+        </action>
+        
+    </permission>
+    
+</model>

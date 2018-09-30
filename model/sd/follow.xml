@@ -1,0 +1,60 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="Follow">
+
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="cFollower" type="userCard" label="Follower Card"/>
+        <field name="cFollowed" type="userCard" label="Flllowed Card" />
+		<field name="mFollower" type="member" label="Follower Member"/>
+		<field name="mFollowed" type="member" label="Followed Member"/>
+        
+    </fields>
+	<views>
+         <view name="homeInFollow" type="main">
+            <div class="view-body-flex">
+
+                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                    <div title="Follow" style="width: 100%; height: 100%">
+                        <grid><!--  data-dojo-props="editPopup: true" -->
+                            <query target="follow" expand="id(60)|cFollower|cFollowed">
+                                <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
+                                <axis-y>
+                                    <node>
+                                        <subnode type="follow" create-view="create" filter="">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </div>
+                </tabs>
+            </div>
+         </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="label"/>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	 </views>
+	  
+	 <workflow>
+        <global-actions>
+            <!-- 暂时没权限控制 -->
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="hasOpUserPermission($opOrg, create)">
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0)"/>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+     </workflow>
+	
+    
+</model>

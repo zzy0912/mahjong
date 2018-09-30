@@ -1,0 +1,8 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="枚举项使用" disabled-default-fields="step;workflow;creator;createTime"  log-activity="false" >
+    <fields>
+        <field name="enum" type="enum" label="枚举" />
+        <field name="enumValueId" type="long" label="枚举项" />
+        <field name="org" type="org" label="组织" />
+    </fields>
+</model>

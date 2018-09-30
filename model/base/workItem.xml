@@ -1,0 +1,11 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="WorkItem" log-activity="false" disabled-default-fields="workflow" permission-config-scope="belongTo" permission-belong-to="org" >
+    <fields>
+        <field name="org" type="org" label="组织" />
+        <field name="label" type="string" label="标题" />
+        <field name="processor" type="user" multiple="true" label="处理者" />
+        <field name="isTodo" type="boolean" label="是否待办事项" />
+        <field name="item" type="$commonModel" label="关联事项" />
+        <field name="step" type="int" label="状态" />
+    </fields>
+</model>

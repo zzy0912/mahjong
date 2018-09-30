@@ -1,0 +1,159 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="User" table="user_" disabled-default-fields="label;org;workflow;step;creator;createTime" return-fields="type">
+    
+    <auto-create priority="high">
+        <entity id="-1" model="user" label="admin" account="admin" password="admin" isAdmin="true" isValid="true" type="1"/>
+		<entity id="-2" model="user" label="system" account="system_" password="" isAdmin="false" isValid="false" type="1"/>  <!-- 每个公司一个特殊用户，用于后台的job操作，account不能修改 -->
+    </auto-create>
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="label" type="string" label="Nickname"/>
+        <field name="registerTime" type="dateTime" label="Register Time"/>
+        <field name="account" type="string" label="Account" allow-empty="false"/>
+        <field name="password" type="string" label="Password" default-value="ADarts"/> <!-- ADarts -->
+        <field name="phone" type="string" label="Mobile"/>
+		<field name="uuid" type="string" label="UUID"/>
+        <field name="icon" type="image" label="Portrait"/>
+        <field name="gender" type="enum:gender" label="Gender"/>
+		<field name="isAdmin" type="boolean" label="Admin" default-value="false"/>
+        <field name="isValid" type="boolean" label="Valid" default-value="true"/> <!-- 禁用用户 -->
+        <field name="birth" type="date" label="Birth"/>        
+        <field name="type" type="enum:type" label="Type"/>
+    </fields>
+    
+    <enums>
+        <enum name="gender" label="Gender" editable="false">
+            <item name="male" label="Male"/>
+            <item name="female" label="Female" />
+        </enum>
+        <enum name="type" label="Type" editable="false">
+		    <item name="admin" label="Admin"/>
+            <!-- <item name="agent" label="Agent"/>
+            <item name="shop" label="Shop"/> -->
+        </enum>
+    </enums>
+    
+    <!--定义导入-->
+    <imports>
+        <import name="xls" type="xls" start-line="2" label="XLS File|XLS" range="list" encoding="GBK" fields="label;account;phone;gender;birth;type"/>
+    </imports>
+    <!--定义导出-->
+    <exports>
+        <export name="xls" type="xls" encoding="GBK" label="XLS File|XLS" range="list"/>
+    </exports>
+    
+    <default-query expand="label(100)|account(100)|phone(150)|gender(80)|birth(100)|type(100)" order-by="id,desc">
+        <axis-y>
+            <permission target="org" id="$opOrg.id" action="list"/>
+        </axis-y>
+    </default-query>
+    
+    <views>
+
+        <view name="home" type="main">
+            <div class="view-body-flex" ng-controller="userMainResetPassword" q-local-id="orgTabWidget">
+                <div class="view-title">
+                    <div class="view-title-label">Users</div>
+                </div>
+                <!--<div style="padding:10px" ng-show="isAble" ng-controller="userMainResetPassword" q-local-id="orgTabWidget">-->
+                    <grid data-dojo-props="multiSelect: true, editPopup:true" q-local-id="ableUserGrid">
+                        <query target="user" expand="id(60)|label(100)|phone(150)|registerTime(150)|type(100)" order-by="id,desc">
+                            <toolbar action-create="false">
+                                <!--<action name="resetPassword" label="重置密码"  icon-class="fa fa-key" click="resetPassword"/>-->
+                            </toolbar>
+                            <axis-y>
+                                <node>
+                                    <subnode type="user" create-view="create">
+                                        <permission target="org" id="$opOrg.id" action="list"/>
+                                    </subnode>
+                                </node>
+                            </axis-y>
+                        </query>
+                    </grid>
+                <!--</div>-->
+            </div>
+        </view>
+        <!-- 系统用户视图 -->
+        <view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <vbox contain="account;phone|label;gender|birth;type"/>
+                </vbox>
+            </entity>
+        </view>
+        <view name="edit" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <panel title="Info">
+                    <vbox contain="account;phone|label;gender|birth;type"/>
+                </panel>
+            </entity>
+        </view>
+        <view name="info" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <panel title="Info">
+                    <vbox contain="account(editable=false);phone(editable=false)|label(editable=false);gender(editable=false)|birth(editable=false);type(editable=false)"/>
+                </panel>
+            </entity>
+        </view>
+        <!-- 主页修改用户信息 -->
+        <view name="editInfo" type="item" >
+            <def hide-op="true"  hide-history="true"/>
+            <div q-controller=""><!--  ng-controller="userItemModifyPassword" -->
+                <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item" />
+                <vbox>
+                    <vbox contain="phone;label|gender;birth"/>
+                </vbox>
+            </div>
+        </view>
+        <view name="changePassword" type="item">
+            <def hide-op="true"  hide-history="true"/>
+            <div q-controller="" style="width: 100%">
+                <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item" />
+                <vbox>
+                    <field label="Old password"  type="string" field="oldPassword" control-type="passwordTextBox"/>
+                    <field label="New password"  type="string" field="newPassword1" control-type="passwordTextBox"/>
+                    <field label="New password" type="string"  field="newPassword2" control-type="passwordTextBox"/>
+                </vbox>              
+            </div>
+        </view>
+        <view name="resetPassword" type="item">
+            <def hide-op="true"  hide-history="true"/>
+            <div q-controller="" style="width: 100%">
+                <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item" />
+                <vbox>
+                    <field label="New password"  type="string" field="newPassword1" control-type="passwordTextBox"/>
+                    <field label="New Password" type="string"  field="newPassword2" control-type="passwordTextBox"/>
+                </vbox>               
+            </div>
+        </view>
+    </views>
+    
+    <workflow>
+        <global-actions>
+            <action name="save" label="save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save" restrict-to="$opUser.type == admin">
+            </action>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to="id == $null"/>
+            <view name="edit" restrict-to=""/>
+            <view name="info" restrict-to=""/>
+            <view name="editInfo" restrict-to=""/>
+            <view name="changePassword" restrict-to=""/>
+            <view name="resetPassword" restrict-to=""/>
+        </global-views>
+    </workflow>
+    
+    <permission>
+        <action name="create" label="创建" pass="true"/>
+        <action name="read" label="查看" pass="true"/>
+        <action name="manage" label="管理" pass="true"/>
+        <action name="delete" label="删除" pass="true"/>
+        <action name="list" label="列举" pass="true"/>
+        <action name="import" label="导入" pass="true"/>
+        <action name="export" label="导出" pass="true"/>
+    </permission>
+    
+</model>

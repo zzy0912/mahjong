@@ -1,0 +1,17 @@
+﻿<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" log-activity="false" label="wfCurrentStep" disabled-default-fields="org;step;workflow;creator;createTime">
+	<fields>
+		<field name="operator" type="user" label="操作者" />
+        <field name="opTime" type="dateTime" label="操作时间" />
+        <field name="actionId" type="int" label="操作动作" column="action_id" />
+		<field name="actionName" type="string" label="动作名字" column="action_name" />
+		<field name="stepId" type="int" label="状态" column="stepId_id" />
+		<field name="stepName" type="string" label="状态名字" column="step_name" />
+		<field name="model" type="string" label="操作对象类型" />
+		<field name="entityId" type="long" label="操作对象ID" column="entity_id" />
+		<field name="comment" type="text" label="意见" column="comment_" />
+		<field name="processor" type="user" multiple="true" />
+		<field name="entry" type="wfEntry" label="工作流" column="entry_id" />
+		<field name="prevStepId" type="int" label="上一状态" column="prev_stepId"/>
+    </fields>
+</model>

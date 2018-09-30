@@ -1,0 +1,9 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="PermInherit" log-activity="false" disabled-default-fields="org;label;workflow;step;creator;createDate;createTime" >
+    <fields>
+        <field name="configType" type="string" label="配置对象类型" />
+        <field name="configId" type="int" label="配置对象id" />
+        <field name="target" type="string" label="操作模型" />
+        <field name="isValid" type="boolean" label="是否有效" />
+    </fields>
+</model>

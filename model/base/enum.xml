@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="枚举" disabled-default-fields="step;workflow" log-activity="false" >
+    <fields>
+        <field name="name" type="string" label="名字" />
+        <field name="label" type="string" label="名字" />
+        <field name="isTree" type="boolean" label="是否枚举树" />
+        <field name="editable" type="boolean" label="是否可编辑" />
+        <field name="itemModel" type="string" label="枚举项模型" />
+        <field name="model" type="string" label="所属模型" />
+        <field name="description" type="text" label="描述" />
+        <field name="parent" type="enum" label="父枚举" />
+
+        <field name="version" type="string" label="版本" />
+    </fields>
+    <default-query expand="name|label|editable|itemModel|description|model"/>
+
+    <permission>
+        <action name="list" label="列举" pass="true" /><!-- 绕过权限校验 -->
+    </permission>
+
+</model>

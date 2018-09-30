@@ -1,0 +1,66 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="Bulletin">
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+	    <field name="country" type="country" label="Country"/> <!-- 预留也许有跨区域的公告 -->
+        <field name="label" type="string" label="Title"/>
+        <field name="banner" type="string" label="Banner Image"/> <!-- 在首页上显示的图片 -->
+        <field name="area" type="area" label="Area"/>
+        <field name="announce" type="text" label="Announce"/>
+        <field name="isPublish" type="boolean" default-value="false" label="IsPublish"/>
+        <field name="publishDate" type="date" label="Publish Date"/>
+        <field name="url" type="string" label="URL"/> <!-- 点击后打开的详情页面 -->
+    </fields>
+	
+    <imports>
+		<import name="xls" type="xls" start-line="2" label="XLS File|XLS File" range="list" encoding="GBK" fields="label;area;banner;announce;url"/>
+    </imports>
+	<exports>
+		<export name="xls" type="xls" encoding="GBK" label="XLS File|XLS File" range="list" />
+    </exports>
+
+	<views>
+           <view name="home" type="main">
+            <div class="view-body-flex">
+              <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                <div title="Bulletin" style="width: 100%; height: 100%">
+                    <grid><!--  data-dojo-props="editPopup: true" -->
+                        <query target="bulletin" expand="id(60)|label|area|isPublish|publishDate|announce">
+                            <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
+                            <axis-y>
+                                <node>
+                                    <subnode type="bulletin" create-view="create" filter="">
+                                        <permission target="org" id="$opOrg.id" action="list"/>
+                                    </subnode>
+                                </node>
+                            </axis-y>
+                        </query>
+                    </grid>
+                </div>                
+              </tabs>
+            </div>
+        </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="label|area|banner|url|isPublish|publishDate|announce"/>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	 </views>
+	  
+	 <workflow>
+        <global-actions>
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+     </workflow>
+</model>

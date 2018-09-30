@@ -1,0 +1,7 @@
+﻿<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" log-activity="false" label="wfEntry" disabled-default-fields="org;step;workflow;creator;createTime">
+	<fields>
+		<field name="name" type="string" label="工作流名字" />
+        <field name="state" type="int" label="状态" />
+    </fields>
+</model>

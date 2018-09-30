@@ -1,0 +1,8 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="Company" disabled-default-fields="step;workflow;org">
+    <fields>
+        <field name="isValid" type="boolean" label="是否使能" />
+        <field name="rootOrg" type="long" label="根组织" column="ROOTORG_ID"/>
+    </fields>
+    
+</model>

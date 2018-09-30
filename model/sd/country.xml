@@ -1,0 +1,68 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="Country">
+	   
+    <auto-create priority="high">
+        <entity id="1" model="country" label="中国" code="ZH" />        
+    </auto-create>
+
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="label" type="string" label="Label"/>
+		<field name="code" type="string" label="Code"/>
+        <field name="sort" type="int" label="Sort"/>
+    </fields>
+
+	<imports>
+		<import name="xls" type="xls" start-line="2" label="XLS File|XLS File" range="list" encoding="GBK" fields="label;code;sort"/>
+    </imports>
+	<exports>
+		<export name="xls" type="xls" encoding="GBK" label="XLS File|XLS File" range="list" />
+    </exports>	
+	
+	<views>
+         <view name="home" type="main">
+            <div class="view-body-flex">
+                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                    <div title="Country" style="width: 100%; height: 100%">
+                        <grid><!--  data-dojo-props="editPopup: true" -->
+                            <query target="country" expand="id(60)|label|code|sort">
+                                <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
+                                <axis-y>
+                                    <node>
+                                        <subnode type="country" create-view="create" filter="">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </div>    
+                </tabs>
+            </div>
+         </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="label|code|sort"/>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	 </views>
+	  
+	 <workflow>
+        <global-actions>
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+     </workflow>
+	
+    
+</model>

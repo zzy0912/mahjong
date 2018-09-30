@@ -1,0 +1,80 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="Org" disabled-default-fields="org;workflow" permission-belong-to="parent" permission-config-scope="self"
+    return-fields="id;label;type" log-type="setting">
+    
+    <auto-create>
+        <!-- 必须初始化属性name -->
+        <entity id="-1" model="org" name="company" label="company" type="1"/>
+    </auto-create>
+    
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="label" type="string" label="Label"/>
+        <field name="type" type="enum:type" label="Type" allow-empty="false"/> 
+    </fields>
+    
+    <enums>
+        <enum name="type" label="Type" editable="false">
+            <item name="company" label="Company"/>
+            <item name="project" label="Project"/>
+        </enum>
+    </enums>
+    
+    <views>
+        
+        <view name="home" type="main">
+            <tabs q-local-id="orgTabWidget" ng-controller="model_org"  style="flex: auto; min-width: 825px;" >
+                <div x-label="Users" ng-controller="userMainResetPassword"  style="display: flex; flex-direction: column;"  >
+                    <div style="display: flex; flex-grow:1;" >
+                        <grid data-dojo-props="editPopup: true, editableInside:false, multiSelect: true" style="height: auto;">
+                             <query target="user">
+                                 <toolbar action-config-column="false" action-export="true" action-import="true">
+                                     <action name="resetPassword" label="reset password" icon-class="fa fa-key" click="resetPassword"/>
+                                 </toolbar>
+                                 <axis-y>
+                                     <node>
+                                         <subnode type="user" create-view="create"/>
+                                     </node>
+                                     <permission action="list" target="org" id="$opOrg.id" />
+                                 </axis-y>
+                             </query>
+                         </grid>
+                    </div>
+                </div>
+                <div x-label="Settings"  q-controller=""  style="padding:10px;flex:auto; overflow:auto"  >
+                    <q-data target="globalSetting" entity="" />
+                    <vbox>
+                        <panel title="SMTP" style="margin-bottom:20px;">
+                            <hbox>
+                                <field target="globalSetting" field="smtpEnable"/>  
+                                <field target="globalSetting" field="serverAddress" />                                
+                            </hbox>  
+                            <hbox>
+                                <field target="globalSetting" field="smtpHost" />
+                                <field target="globalSetting" field="smtpPort" />   
+                            </hbox>   
+                            <hbox>                            
+                                <field target="globalSetting" field="smtpSSL" />
+                                <field target="globalSetting" field="smtpFrom" />     
+                            </hbox>  
+                            <hbox>                            
+                                <field target="globalSetting" field="smtpUsername" />
+                                <field target="globalSetting" field="smtpPassword"  control-type="passwordTextBox" />   
+                            </hbox>        
+                        </panel>
+                        <button class="btn-default" style="float:right; margin-top:20px;" ng-click="qSubmit()">Save</button>        
+                    </vbox>
+                </div>
+            </tabs>
+        </view>
+    </views>
+    
+    <permission>
+        <action name="create" label="创建" pass="true"/>
+        <action name="read" label="查看" pass="true"/>
+        <action name="manage" label="管理" pass="true"/>
+        <action name="delete" label="删除" pass="true"/>
+        <action name="list" label="列举" pass="true"/>
+    </permission>
+    
+</model>

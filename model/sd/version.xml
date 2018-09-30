@@ -1,0 +1,68 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" tabel= "gameVersion" label="Version">
+    
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="label" type="string" label="Label" length="1024"/>
+		<field name="type" type="enum:type"  label="Type"/>
+        <field name="versionCode" type="string" label="Code"/>
+        <field name="url" type="string" label="URL" />  <!-- for android only -->
+    </fields>
+	
+	<enums>
+        <enum name="type" label="Type" editable="false">
+            <item value="1" name="gameAppHome" label="Game App Home" />
+			<!-- <item value="2" name="gameAppBusiness" label="Game App Business" /> -->
+            <item value="3" name="memberApp" label="Member App" />
+        </enum>
+    </enums>
+	
+	<views>
+         <view name="home" type="main">
+            <div class="view-body-flex">
+
+                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                    <div title="Version" style="width: 100%; height: 100%">
+                        <grid><!--  data-dojo-props="editPopup: true" -->
+                            <query target="version" expand="id(60)|type|label|versionCode|url">
+                                <toolbar action-header-filter="true" action-config-column="true"/>
+                                <axis-y>
+                                    <node>
+                                        <subnode type="version" create-view="create" filter="">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </div>
+
+                </tabs>
+            </div>
+         </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="label|type|versionCode|url"/>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	 </views>
+	  
+	 <workflow>
+        <global-actions>
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+     </workflow>
+	
+    
+</model>

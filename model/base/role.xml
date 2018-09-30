@@ -1,0 +1,73 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="Role" disabled-default-fields="org;step;workflow" permission-belong-to="scopeOrg" permission-config-scope="belongTo" >
+    <auto-create priority="high">
+        <entity id="-1" name="member" label="成员" scopeType="1" scopeOrg="-1" creator="-1" buildIn="true" />
+        <entity id="-2" name="manager" label="经理" scopeType="1" scopeOrg="-1" creator="-1" buildIn="true" />
+        <entity id="-3" name="admin" label="管理员" scopeType="1" scopeOrg="-1" creator="-1" buildIn="true" />
+        <entity id="-4" name="immediate" label="直属成员" scopeType="1" scopeOrg="-1" creator="-1" buildIn="true" />
+    </auto-create>
+    <fields>
+        <field name="name" type="string" label="名字" />
+        <field name="buildIn" type="boolean" label="系统内置角色" />
+        <field name="scopeType" type="enum:scopeType" label="作用域类型" />
+        <field name="scopeOrgType" type="enum:org.type" label="指定组织类型" />
+        <field name="scopeOrg" type="org" label="指定组织" />
+        <field name="scopeOnChildren" type="boolean" label="作用于子组织" />
+        <field name="scope" type="string" label="适用于" only-client="true" />
+    </fields>
+    <enums>
+        <enum name="scopeType" label="作用域类型" editable="false" >
+            <item name="global" label="全局" default-flag="true" />
+            <item name="org" label="指定组织" />
+            <item name="orgType" label="指定类型组织" />
+        </enum>
+    </enums>
+    <default-query expand="id|label" >
+        <axis-y>
+            <permission action="list" />
+        </axis-y>
+    </default-query>
+    
+    <views>
+        <view name="edit" type="item">
+            <div ng-controller="model_role" q-local-id="editRole" q-controller="">
+                <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item"></q-data>
+                <vbox>
+                    <field field="label" />
+                    <field field="scopeType" />
+                    <div ng-hide="isChooseGlobal">
+                        <field field="scopeOrgType" label="选择组织类型"  ng-show="isShowOrgType" />
+                        <field field="scopeOrg" label="选择组织" ng-show="isShowOrg" />
+                        <!-- <field field="scopeOnChildren" label="是否作用于子组织" /> -->  
+                    </div>
+                </vbox>
+            </div>
+        </view>
+    </views>
+
+    
+    <permission>
+        <action name="create" label="创建">
+            
+            <rule org="$opOrg" role="admin" build-in="true" />
+            <rule org="$opOrg" role="manager" build-in="false"/>
+        </action>
+        <action name="read" label="查看">
+            
+            <rule org="$belongToOrg" role="member" build-in="true" />
+        </action>
+        <action name="manage" label="管理">
+            
+            <rule org="$belongToOrg" role="admin" build-in="true" />
+            <rule org="$belongToOrg" role="manager" build-in="false"/>
+        </action>
+        <action name="delete" label="删除">
+            
+            <rule org="$belongToOrg" role="admin" build-in="true" />
+            <rule org="$belongToOrg" role="manager" build-in="false"/>
+        </action>
+        <action name="list" label="列举" pass="true">  
+        </action>
+    </permission>
+    
+</model>

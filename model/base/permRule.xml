@@ -1,0 +1,79 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="PermRule" log-activity="false" disabled-default-fields="label;org;step;workflow;creator;createTime" >
+    <fields>
+        <field name="target" type="string" label="操作模型" />
+        <field name="action" type="string" label="动作" />
+        <field name="configType" type="string" label="配置对象类型" />
+        <field name="configId" type="int" label="配置对象ID" />
+        
+        <field name="perOwerType" type="enum:perOwerType" label="所有者类型" />
+        
+        <field name="perOwnUser" type="user" label="用户" />
+        
+        <field name="perOwnRole" type="role" label="角色" /> 
+        <field name="ownerOrgSrc" type="enum:ownerOrgSrc" label="所有者组织来源" />
+        <field name="perOwnRoleOrg" type="org" label="指定组织" />
+        
+        <field name="opObjField" type="string" label="操作对象指定字段" />
+        <field name="containAncestorOrg" type="boolean" label="是否包含祖先组织" default-value="false" />
+        
+        <field name="scope" type="string" label="作用域" only-client="true" />
+        
+        <!-- 如果buildIn值为true不允许操作 -->
+        <field name="buildIn" type="boolean" label="系统内置规则" />
+    </fields>
+    
+    <enums>
+        <enum name="ownerOrgSrc" label="所有者组织来源" editable="false">
+            <item name="opObjOrg" label="操作对象所属组织"></item> <!-- 包括两种情况：范围对象、操作对象所属组织 -->
+            <item name="specifiedOrg" label="指定组织"></item>
+            <item name="opOrg" label="当前操作组织"></item>
+            <item name="opObjField" label="操作对象指定字段"></item>
+            
+        </enum>
+        <enum name="perOwerType" label="所有者类型" editable="false">
+            <item name="role" label="角色"></item>
+            <item name="user" label="用户"></item>
+        </enum>
+    </enums>
+    
+    <imports>
+        <import name="xls" label="xls" type="xls" range="list" encoding="GBK" start-line="2" fields="target;action;configType;configId;perOwerType;perOwnUser;perOwnRole;ownerOrgSrc;perOwnRoleOrg;containAncestorOrg" />
+    </imports>
+    <exports>
+        <export name="xls" label="xls" type="xls" range="list" encoding="GBK" fields="target;action;configType;configId;perOwerType;perOwnUser;perOwnRole;ownerOrgSrc;perOwnRoleOrg;containAncestorOrg"/>
+    </exports>
+    
+    <views>
+        <view name="create" type="item">
+            <div ng-controller="permRule" q-local-id="permissionRule" q-controller="">
+                <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item"></q-data>
+                <vbox>
+                    <hbox>
+                        <field field="action" control-type="comboBox" data-dojo-props="searchAttr:'label',retValueType:'name'" label="选择操作动作" />
+                        <field field="perOwerType" /> 
+                    </hbox>
+                    <field field="perOwnUser" ng-show="isSelectedUserType"/>
+                    <field field="ownerOrgSrc" ng-show="isSelectedRoleType" />
+                    <!-- <field field="containAncestorOrg" ng-show="isShowContainAncestorOrg && isSelectedRoleType" /> -->
+                    <field field="perOwnRoleOrg" ng-show="isShowAllOrg && isSelectedRoleType" label="选择组织" />
+                    <field field="perOwnRole" label="选择角色" ng-show="isShowRole && isSelectedRoleType" />
+                </vbox>
+            </div>
+        </view>
+        <view name="createRole" type="item">
+            <div q-controller="">
+                <div ng-controller="permRule" q-local-id="permissionRule" >
+                    <q-data target="qView.viewObj.target" id="qView.viewObj.id" init="qView.viewObj.item"></q-data>
+                    <vbox>
+                        <field field="ownerOrgSrc" label="所有者组织来源"  />
+                        <!-- <field field="containAncestorOrg" ng-show="isShowContainAncestorOrg && isSelectedRoleType" /> -->
+                        <field field="containAncestorOrg"  />
+                        <field field="perOwnRoleOrg" ng-show="isShowAllOrg " label="选择组织" />
+                        <field field="perOwnRole" label="选择角色" ng-show="isShowRole" data-dojo-props="customQueryY: 'roleQueryY', controllerId: 'permRule'" />
+                    </vbox>
+                </div>
+            </div>
+        </view>
+    </views>
+</model>

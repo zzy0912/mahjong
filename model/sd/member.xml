@@ -1,0 +1,327 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="Member">
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="account" type="string" label="Account" unique-check="true"  allow-empty="false"/>
+        <field name="password" type="string" label="Password" allow-empty="false" default-value="433FF19269D1D9355A4DD51DC8ACA504"/> <!-- ADarts -->
+		<field name="isValid" type="boolean" label="Valid" default-value="true"/>
+		<field name="label" type="string" label="Nickname"/> <!-- nickname -->        
+        <field name="country" type="country" label="Country"/>
+		<field name="area" type="area" label="Area"/>
+        <field name="birth" type="date" label="Birthday"/> <!-- 考虑统计，要用时间不用字符串 -->
+		<field name="gender" type="enum:gender" label="Gender"/>
+        <field name="email" type="string" label="Email" allow-empty="false" />
+		<field name="phone" type="string" label="Phone"/>
+		<field name="portrait" type="string" label="Portrait"/>
+		<field name="language" type="enum:language" label="Language"/>
+		<field name="registerTime" type="date" label="Register Time"/> <!-- 后台创建要手工输入，前台注册自动填当前时间 -->
+		<field name="homeShop" type="shop" label="Home Shop"/><!-- 会员所属的主店 -->
+		<field name="userCard" type="userCard" label="Main Card"/><!-- 会员的主卡 -->
+        <field name="set" label="Set" type="merchandise"/>
+        <field name="background" label="Style" type="merchandise"/>
+        <field name="dartThrow" label="Dart Throw" type="merchandise"/>
+        <field name="sound" label="Sound" type="merchandise"/>
+        <field name="bullSound" label="Bull Sound" type="merchandise"/>
+        <field name="markAward" label="Mark Award" type="merchandise"/>
+        <field name="lowTonVideo" label="LOW TON Video" type="merchandise"/>
+        <field name="highTonVideo" label="HIGH TON Video" type="merchandise"/>
+        <field name="hatTrickVideo" label="HAT TRICK Video" type="merchandise"/>
+        <field name="threeInABlackVideo" label="3 IN A BLACK Video" type="merchandise"/>
+        <field name="ton80Video" label="TON 80 Video" type="merchandise"/>
+        <field name="threeInABedVideo" label="3 IN A BED Video" type="merchandise"/>
+        <field name="whiteHoreseVideo" label="WHITE HORSE Video" type="merchandise"/>
+        <field name="frame" label="Frame" type="merchandise"/>
+
+        <field name="coin" label="Coin" type="int" default-value="0"/>
+        <field name="merchandises" type="member_merchandise" label="Merchandises" multiple="true" mapping-field="member" >
+        </field>
+    </fields>
+	
+   
+    <enums>
+        <enum name="gender" label="Gender" editable="false">
+            <item name="male" label="Male"  default-flag="true"/>  <!-- 1 -->
+            <item name="female" label="Female" />
+        </enum>
+		
+        <enum name="language" label="language" editable="false">
+            <item name="english" label="English"  default-flag="true"/>  <!-- 1 -->
+            <item name="chinese" label="中文" />
+        </enum>
+    </enums>
+	
+	<exports>
+		<export name="xls" type="xls" encoding="GBK" label="XLS File|XLS File" range="list" />
+    </exports>
+	
+	<views>
+        <view name="home" type="main">
+            <div class="view-body-flex">
+                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                    <div title="Member" style="width: 100%; height: 100%">
+                        <grid><!--  data-dojo-props="editPopup: true" -->
+                             <query target="member" expand="id(60)|registerTime|language|account|label|gender|birth|country|area|email|phone|homeShop|userCard|coin|isValid">
+                                <toolbar action-header-filter="true" action-config-column="true" action-export="true"/>
+                                <axis-y>
+                                    <node>
+                                        <subnode type="member" create-view="create" filter="">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </div>
+                </tabs>
+            </div>
+        </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="registerTime;language|account;label|gender;birth|country;area|email;phone|portrait;homeShop|userCard;isValid|coin|field:set;field:background|field:dartThrow;field:sound|field:bullSound;field:markAward|field:lowTonVideo;field:highTonVideo|field:hatTrickVideo;field:threeInABlackVideo|field:ton80Video;field:threeInABedVideo|field:whiteHoreseVideo;field:frame">
+                            <field field="set">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==1 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="background">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==2 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="dartThrow">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==3 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="sound">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==4 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="bullSound">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==1 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="markAward">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==6 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="lowTonVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==7 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="highTonVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==8 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="hatTrickVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==9 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="threeInABlackVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==10 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="ton80Video">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==11 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="threeInABedVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==12 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="whiteHoreseVideo">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==13 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                            <field field="frame">
+                                <selector>
+                                    <target target="merchandise">
+                                        <query>
+                                            <axis-y>
+                                                <node>
+                                                    <subnode type="merchandise" filter="type==14 AND members.member==$item.id" />
+                                                </node>
+                                                
+                                                
+                                            </axis-y>
+                                        </query>
+                                    </target>
+                                </selector>
+                            </field>
+                        </vbox>
+                        <grid title="Merchandises" field="merchandises" height="1000">
+                            <query>
+                                
+                                <axis-y>
+                                    <node>
+                                        <subnode type="member_merchandise" create-view="create" filter="member==$item.id">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	</views>
+		
+	<workflow>
+        <global-actions>
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
+                
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
+        </global-actions>
+		
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+    </workflow>
+	
+</model>

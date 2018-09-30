@@ -1,0 +1,154 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="User Card">
+    <fields>
+        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="type" type="enum:type"  label="Type"/>
+        <field name="label" type="string" label="Label"/>
+        <field name="cardNo" type="string" label="Card No" unique-check="true"/>
+        <!-- <field name="secretKey" type="string" label="Secret Key"/> -->
+          
+        <field name="member" type="member" label="Member"/>		
+        <field name="bindTime" type="dateTime" label="BindTime"/>
+        <field name="status" type="enum:status"  label="Status"/>
+		
+		<field name="rating" type="double" label="Rating"/>
+
+        <field name="ppd" type="double" label="PPD" /><!-- 最近30场PPD平均值 -->
+		<field name="ppdHistory" type="string" label="PPD History" />
+		
+		
+		<field name="mpr" type="double" label="MPR" /><!-- 最近30场MPR平均值 -->
+		<field name="mprHistory" type="string" label="MPR History" />
+		
+		
+		<field name="point" type="double" label="POINT" /><!-- 最近30场Point平均值 -->
+		<field name="pointHistory" type="string" label="CountUp History" />
+	
+		<field name="gameCount" type="long" label="Game Count" /><!-- 游戏结束，次数加一 -->
+		
+        <field name="dHatTrick" type="long" label="Today HatTrick" />
+		<field name="dTon80" type="long" label="Today Ton80" />
+		<field name="d3InABed" type="long" label="Today 3InABed" />
+		<field name="d3InABlack" type="long" label="Today 3InABlack" />
+		<field name="dWhiteHorse" type="long" label="Today WhiteHorse" />
+		<field name="dPoint" type="long" label="Today Point" />
+        <field name="dPPD" type="double" label="Today PPD" />
+		<field name="dMPR" type="double" label="Today MPR" />
+
+		<field name="d2HatTrick" type="long" label="Lastday HatTrick" />
+		<field name="d2Ton80" type="long" label="Lastday Ton80" />
+		<field name="d23InABed" type="long" label="Lastday 3InABed" />
+		<field name="d23InABlack" type="long" label="Lastday 3InABlack" />
+		<field name="d2WhiteHorse" type="long" label="Lastday WhiteHorse" />
+		<field name="d2Point" type="long" label="Lastday Point" />
+        <field name="d2PPD" type="double" label="Lastday PPD" />
+        <field name="d2MPR" type="double" label="Lastday MPR" />
+		
+		<field name="mHatTrick" type="long" label="Month HatTrick" />
+		<field name="mTon80" type="long" label="Month Ton80" />
+		<field name="m3InABed" type="long" label="Month 3InABed" />
+		<field name="m3InABlack" type="long" label="Month 3InABlack" />
+		<field name="mWhiteHorse" type="long" label="Month WhiteHorse" />
+		<field name="mPoint" type="long" label="Month Point" />
+        <field name="mPPD" type="double" label="Month PPD" />
+        <field name="mMPR" type="double" label="Month MPR" />
+		
+	    <field name="wHatTrick" type="long" label="Week HatTrick" />
+		<field name="wTon80" type="long" label="Week Ton80" />
+		<field name="w3InABed" type="long" label="Week 3InABed" />
+		<field name="w3InABlack" type="long" label="Week 3InABlack" />
+		<field name="wWhiteHorse" type="long" label="Week WhiteHorse" />
+		<field name="wPoint" type="long" label="Week Point" />
+        <field name="wPPD" type="double" label="Week PPD" />
+        <field name="wMPR" type="double" label="Week MPR" />
+
+        
+    </fields>
+	<enums>
+        <enum name="status" label="Status" editable="false">
+            <item name="normal" label="Normal" />
+            <item name="lost" label="Losted" />
+        </enum>
+        <enum name="type" label="Type" editable="false">
+		    <item name="home" label="Home"/>
+            <item name="business" label="Business"/>
+        </enum>
+    </enums>
+
+	<imports>
+		<import name="xls" type="xls" start-line="2" label="XLS File|XLS File" range="list" encoding="GBK" fields="cardNo;type;status"/>
+    </imports>
+	<exports>
+		<export name="xls" type="xls" encoding="GBK" label="XLS File|XLS File" range="list" fields="cardNo;type;status"/>
+    </exports>
+
+	<default-query expand="id|cardNo|type|member|status" >
+        <axis-y>
+            <permission action="list" />
+        </axis-y>
+    </default-query>
+
+	<views>
+         <view name="home" type="main">
+            <div class="view-body-flex">
+
+                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
+                    <div title="User Card" style="width: 100%; height: 100%">
+                        <grid><!--  data-dojo-props="editPopup: true" -->
+                            <query target="userCard" expand="id(60)|cardNo|type|member|status|bindTime">
+                                <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
+                                <axis-y>
+                                    <node>
+                                        <subnode type="userCard" create-view="create" filter="">
+                                            <permission target="org" id="$opOrg.id" action="list"/>
+                                        </subnode>
+                                    </node>
+                                </axis-y>
+                            </query>
+                        </grid>
+                    </div>
+
+                </tabs>
+            </div>
+         </view>
+		
+		<view name="create" type="item">
+            <def hide-op="true" hide-history="true"/>
+            <entity>
+                <vbox>
+                    <panel title="Basic">
+                        <vbox contain="cardNo;type|member;status"/>
+                    </panel>
+                </vbox>
+            </entity>
+        </view>
+	 </views>
+	  
+	 <workflow>
+        <global-actions>
+            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
+                <pre-functions>
+                    <function name="setProperty">
+                        <arg name="property">label</arg>
+                        <arg name="value">$item.cardNo</arg>
+                    </function>
+                    <function>
+                        <script>
+                            <![CDATA[
+                                import java.util.*;
+                                Map entity = (Map)paras.get("entity");
+                                com.cloudtopo.customer.softdart.service.SDMemberService.registerVtc(entity);
+                            ]]>
+                        </script> 
+                    </function>
+                </pre-functions>
+            </action>
+            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
+        </global-actions>
+        <global-views>
+            <view name="create" restrict-to=""/>
+        </global-views>
+     </workflow>
+	
+    
+</model>

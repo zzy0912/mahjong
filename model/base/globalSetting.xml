@@ -1,0 +1,56 @@
+<model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../common/xsd/model.xsd" label="settings" disabled-default-fields="label;step;workflow;creator;createTime">
+    <auto-create>
+        <entity id="-1" org="-1" model="globalSetting" desktopNotificationEnable="true"  smtpEnable="false" smtpPort="465" smtpSSL="true" smtpUsername="notify@yourdomain.com" serverAddress="http://localhost:8080"
+            authAdEnable="false" authAdImportEnable="true" authAdDomain="yourdomain.local"  authAdFilterTemplate="(&amp;((&amp;(objectCategory=Person)(objectClass=User)))(sAMAccountName=%s))" 
+            authAdAttributeNames="sAMAccountName,mail,memberOf" authAdConnectionTimeout="1000" authAdReadTimeout="1000"  adAccount="cn" adEmail="mail" adLabel="displayName" 
+            userImportAdEnable="false" userImportAdCron="0 0 3 * * ?" userImportAdDn="DC=yourdomain,DC=local" userImportAdFilter="objectCategory=Person"
+            docUploadMaxSize="50" dcTool="1" ftpServerPort="8021"></entity>
+    </auto-create>
+    <!-- 该模型字段的name不能修改  -->
+    <fields>
+        <!-- 全局参数 -->
+        <field name="desktopNotificationEnable" type="boolean" label="desktopNotificationEnable" />
+        <!-- 邮箱配置 -->
+        <field name="smtpEnable" type="boolean" label="Enable" />
+        <field name="smtpHost" type="string" label="Host" />
+        <field name="smtpPort" type="int" label="Port" />
+        <field name="smtpSSL" type="boolean" label="SSL" />
+        <field name="smtpUsername" type="string" label="Username" />
+        <field name="smtpPassword" type="string" label="Password" />
+        <field name="smtpFrom" type="string" label="From" />
+        
+        <field name="serverAddress" type="string" label="Adarts Server" />
+        
+        <!-- AD登录配置 -->
+        <field name="authAdEnable" type="boolean" label="LDAP使能"/>
+        <field name="authAdImportEnable" type="boolean" label="认证成功后导入"/>
+        <field name="authAdDomain" type="string" label="域名称"/>
+        <field name="authAdDomainController" type="string" label="域控制器地址"/>        
+        <field name="authAdFilterTemplate" type="string" label="认证过滤器"/>
+        <field name="authAdAttributeNames" type="string" label="属性名集合"/>
+        <field name="authAdConnectionTimeout" type="int" label="连接超时时长"/>
+        <field name="authAdReadTimeout" type="int" label="读取超时时长"/>
+
+        <field name="adAccount" type="string" label="账号字段"/>
+        <field name="adEmail" type="string" label="Email字段"/>
+        <field name="adPhone" type="string" label="手机字段"/>
+        <field name="adLabel" type="string" label="姓名字段"/>
+        
+        <!-- AD账号导入配置 -->
+        <field name="userImportAdEnable" type="boolean" label="使能定时导入"/>
+        <field name="userImportAdCron" type="string" label="CRON周期"/>
+        <field name="userImportAdByUser" type="string" label="服务器登录账号"/>
+        <field name="userImportAdByPass" type="string" label="服务器登录密码" />        
+        <field name="userImportAdDn" type="string" label="导入DN"/>
+        <field name="userImportAdFilter" type="string" label="导入过滤器"/>
+        
+        <field name="docUploadMaxSize" type="int" label="附件/文档最大长度(M)"/>
+        
+        
+        <!-- FTP SERVER配置 -->
+        <field name="ftpServerPort" type="int" label="FTP服务端口号"/>        
+    </fields>
+
+    
+</model>
