@@ -30,7 +30,7 @@
     <div :style="`margin-left:${showWidth}px;`">
         <div class="header main-bg">
             <div class="header left" style="width:67px;background:#fff;" v-show="showWidth===0">
-                <img id="logoSmall" :src="logoSmall" style="margin:15px 0 0 10px;width:80%;"/>
+                <img src="../../assets/logo-small.png" style="margin:15px 0 0 10px;width:80%;"/>
             </div>
             <div class="iconfont icon-menu left" style="margin: 28px 0 0 15px;font-size:18px;cursor:pointer;" @click="handleShowMenu"></div>
             <div class="userInfo">
@@ -64,19 +64,24 @@
 </div>
 </template>
 <script>
+//import Bus from './bus.vue'
+import {mapState} from 'vuex'
 export default {
     name: 'mahjong-header',
     data() {
         return {
-            showWidth: 220,
-            logo: '../../static/logo.png',
-            logoSmall: '../../static/logo-small.png',
             user: {label: 'admin'},
             dialogFormVisible: false,
             pswLock: true,
             form: {}
         };
     },
+	computed: {
+//		showWidth () {
+//		  	return this.$store.state.showWidth
+//		}
+		...mapState(['showWidth']) // 引入vuex 里的变量
+	},
     mounted() {
     },
     methods: {
@@ -101,11 +106,13 @@ export default {
             });
         },
         handleShowMenu: function() {
-            if (this.showWidth === 220) {
-                this.showWidth = 0;
-            } else {
-                this.showWidth = 220;
-            }
+			this.$store.dispatch('handleShowMenu');
+//            if (this.$store.state.showWidth === 220) {
+//                this.$store.state.showWidth = 0;
+//            } else {
+//                this.showWidththis.$store.state.showWidth = 220;
+//            }
+//			Bus.$emit('isShowMenu', this.showWidth);
         },
         logout: function() {
             this.$cue.remoteService.logout();

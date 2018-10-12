@@ -79,18 +79,29 @@
 	</div>
 </template>
 <script>
+//import Bus from './bus.vue'
+import {mapState} from 'vuex'
 export default {
     name: 'mahjong-menu',
     data() {
         return {
-			showWidth: 220,
+//			showWidth: this.$store.state.showWidth,
             currentPage: '',
             height: document.body.clientHeight - 78
         };
     },
+	computed: {
+//		showWidth () {
+//		  	return this.$store.state.showWidth
+//		}
+		...mapState(['showWidth']) // 引入vuex 里的变量
+	},
     mounted() {
         var tabName = this.$route.name;
         this.currentPage = tabName;
+//		Bus.$on('isShowMenu', (msg) => {
+//			this.showWidth = msg
+//		})
     },
     methods: {
 		goChild(value) {

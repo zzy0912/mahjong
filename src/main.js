@@ -10,14 +10,14 @@ import App from './App';
 import router from './router';
 import VueResource from 'vue-resource';
 import VueCookie from 'vue-cookie';
-import vuex from 'vuex';
+import store from './store';
 
 // 引入样式
 import './common/css/common.scss';
 import './assets/css/base.css';
 import './assets/font/iconfont.css';
 
-Vue.config.productionTip = false;
+//Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 // new Vue({
@@ -34,16 +34,10 @@ if (ie_version > 0 && ie_version < 9.0) {
     // 关闭vue在生产环境时生成的提示
     Vue.config.productionTip = false;
     // Vue平台上安装模块
-	Vue.use(Vuex);
 	Vue.use(VueResource);
 	Vue.use(VueCookie);
     Vue.use(Cue);
     Vue.use(elementUI);
-	var store = new vuex.Store({//store对象
-		state:{
-			show:false
-		}
-	});
     let vmConfig = { el: '#app', router, store, render: h => h(App) };
 
     // 检查是否登录，如果没有登录，跳转到登录界面
