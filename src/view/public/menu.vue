@@ -45,6 +45,10 @@
 				<i class="iconfont icon-home"></i>
 				<span slot="title">主页</span> 
 			</el-menu-item>
+			<el-menu-item index="locker" @click="goChild('locker')">
+				<i class="iconfont icon-message"></i>
+				<span slot="title">设备管理</span> 
+			</el-menu-item>
 			<el-menu-item index="machine" @click="goChild('machine')">
 				<i class="iconfont icon-message"></i>
 				<span slot="title">机器管理</span> 

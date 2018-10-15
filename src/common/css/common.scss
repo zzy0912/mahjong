@@ -41,6 +41,16 @@ abbr,acronym {
 }
 
 /******** 公用样式 ********/
+.clearfloat:after {
+	display: block;
+	clear: both;
+	content: "";
+	visibility: hidden;
+	height: 0
+}
+.clearfloat {
+	zoom: 1
+}
 .box {
   box-sizing: border-box;
 }

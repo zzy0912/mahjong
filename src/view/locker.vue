@@ -38,12 +38,11 @@ export default {
     },
 	created: function() {
 		this.tableValue = [{
-			prop: 'label',
-			label: '用户',
-			link: 'appUserItem'
+			prop: 'lockerNo',
+			label: '编号'
 		}, {
-			prop: 'account',
-			label: '账号'
+			prop: 'shop',
+			label: '所属商店'
 		}, {
 			prop: 'balance',
 			label: '余额（元）'

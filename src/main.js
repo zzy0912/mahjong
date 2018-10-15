@@ -31,6 +31,27 @@ let ie_version = Cue.domUtil.getIEVersion();
 if (ie_version > 0 && ie_version < 9.0) {
     document.getElementById('app').innerHTML = '您的IE浏览器版本过低，请使用9.0以上版本的IE浏览器访问！';
 } else {
+	Vue.filter('formatDate', function(date, type) {
+		if (!date) {
+			return '';
+		}
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		m = m < 10 ? '0' + m : m;
+		var d = date.getDate();
+		d = d < 10 ? ('0' + d) : d;
+		var out = y + '-' + m + '-' + d;
+		if (type === 'ss') {
+			let h = date.getHours();
+			h = h < 10 ? ('0' + h) : h;
+			let mi = date.getMinutes();
+			mi = mi < 10 ? ('0' + mi) : mi;
+			let s = date.getSeconds();
+			s = s < 10 ? ('0' + s) : s;
+			out += ' ' + h + ':' + mi + ':' + s;
+		}
+		return out;
+	});
     // 关闭vue在生产环境时生成的提示
     Vue.config.productionTip = false;
     // Vue平台上安装模块

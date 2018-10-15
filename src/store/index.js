@@ -4,13 +4,13 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-	count: 0,
+	pageTotal: 0,
   	showWidth: 220
 };
 
 const mutations = {
-	inc: state => state.count++,
-    dec: state => state.count--,
+//	inc: state => state.count++,
+//    dec: state => state.count--,
 	handleShowMenu: state => {
 		if (state.showWidth === 220) {
 			state.showWidth = 0;
