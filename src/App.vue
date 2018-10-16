@@ -1,7 +1,7 @@
 <template>
 	<div id="app" style="height:100%;">
-		<mahjong-menu></mahjong-menu>
-		<mahjong-header></mahjong-header>
+		<mMenu></mMenu>
+		<mHeader></mHeader>
 		<div class="box" style="background-color:#F3F3F3;padding: 15px 15px 0;height:100%;overflow:auto;">
             <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key = 'index' :to="{ path: item.path }">{{item.label}}</el-breadcrumb-item>
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import mmenu from './view/public/menu.vue';
-import mheader from './view/public/header.vue';
+import mMenu from './view/public/menu.vue';
+import mHeader from './view/public/header.vue';
 
 export default {
   	name: 'App',
 	components: {
-		'mahjong-menu': mmenu,
-		'mahjong-header': mheader
+		mMenu,
+		mHeader
 	},
 	data() {
 		return {

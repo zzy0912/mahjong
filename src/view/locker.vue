@@ -1,5 +1,5 @@
 <template>
-	<div style="height:100%;overflow:hidden;">
+	<div>
 		<div class="white-bg box" style="padding:10px 20px;height:60px;">
 			<el-input placeholder="请输入内容" v-model="searchLabel" class="input-with-select" style="max-width:360px;">
 				<el-select v-model="selectType" slot="prepend" placeholder="请选择" style="width:80px;">
@@ -9,7 +9,59 @@
 				<el-button slot="append" icon="el-icon-search" @click="search"></el-button>
 			</el-input>
 		</div>
-		<mTable ref="table" :tableValue="tableValue" :call="call"></mTable>
+		<div class="table-css" style="height:100%;overflow:hidden;">
+			<div class="left locker">
+				<h5>小琪麻将馆<br>10009933</h5>
+				<ul class="device-list">
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right success-font">●</span></div>
+<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
+					</li>
+				</ul>
+			</div>
+			<div class="left locker">
+				<h5>小琪麻将馆<br>10009933</h5>
+				<ul class="device-list">
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right success-font">●</span></div>
+<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
+					</li>
+				</ul>
+			</div>
+			<div class="left locker">
+				<h5>小琪麻将馆<br>10009933</h5>
+				<ul class="device-list">
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right red">●</span></div>
+						<div>出借人：张三<span class="right">2018-06-04</span></div>
+					</li>
+					<li>
+						<div>编号：90010<span class="right success-font">●</span></div>
+<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
+					</li>
+				</ul>
+			</div>
+		</div>
 	  	<mpage @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></mpage>
 	</div>
 </template>
@@ -124,4 +176,15 @@ export default {
 </script>
 
 <style>
+	.locker {
+		width: 200px;
+		margin-left: 10px;
+		border: 1px solid #52689F;
+	}
+	.device-list {
+		padding: 10px;
+		border-top: 1px solid #52689F;
+		height: 300px;
+		overflow: auto;
+	}
 </style>

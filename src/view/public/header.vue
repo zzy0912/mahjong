@@ -26,26 +26,24 @@
     }
 </style>
 <template>
-<div>
-    <div :style="`margin-left:${showWidth}px;`">
-        <div class="header main-bg">
-            <div class="header left" style="width:67px;background:#fff;" v-show="showWidth===0">
-                <img src="../../assets/logo-small.png" style="margin:15px 0 0 10px;width:80%;"/>
-            </div>
-            <div class="iconfont icon-menu left" style="margin: 28px 0 0 15px;font-size:18px;cursor:pointer;" @click="handleShowMenu"></div>
-            <div class="userInfo">
-                <div class="left">
-                    <i class="iconfont icon-user"></i>
-                    欢迎您：
-                    <span class="isShowPsw">
-                        {{user.label}}!
-                        <div class="upPsw"><el-button @click="dialogFormVisible=true">修改密码</el-button></div>
-                    </span>
-                </div>
-                <div class="left" style="margin-left:25px;" @click="logout"><i class="iconfont icon-quit"></i><span>退出</span></div>
-            </div>
-        </div>
-    </div>
+<div :style="`margin-left:${showWidth}px;`">
+    <div class="header main-bg">
+		<div class="header left" style="width:67px;background:#fff;" v-show="showWidth===0">
+			<img src="../../assets/logo-small.png" style="margin:15px 0 0 10px;width:80%;"/>
+		</div>
+		<div class="iconfont icon-menu left" style="margin: 28px 0 0 15px;font-size:18px;cursor:pointer;" @click="handleShowMenu"></div>
+		<div class="userInfo">
+			<div class="left">
+				<i class="iconfont icon-user"></i>
+				欢迎您：
+				<span class="isShowPsw">
+					{{user.label}}!
+					<div class="upPsw"><el-button @click="dialogFormVisible=true">修改密码</el-button></div>
+				</span>
+			</div>
+			<div class="left" style="margin-left:25px;" @click="logout"><i class="iconfont icon-quit"></i><span>退出</span></div>
+		</div>
+	</div>
     <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
     <el-form :model="form" label-width="80px">
         <el-form-item label="旧密码">

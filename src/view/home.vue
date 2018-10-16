@@ -1,6 +1,12 @@
 <template>
-	<div><div class="main"><div class="main-left"></div><div class="main-right"></div><div class="main-center">111</div></div><div>东方电视广告速度发发发的，罚款决定公开，设计方法，哦是的疯狂的疯狂开发，多少积分的风景，收到了付款撒的看法。。到付款撒打开V</div>
-	</div>
+<!--	<div>-->
+		<div class="main">
+			<div class="main-left">111</div>
+			<div class="main-top"></div>
+			<div class="main-center box"><div></div></div>
+<!--			<div class="main-right"></div>-->
+		</div>
+<!--	</div>-->
 	
 </template>
 
@@ -53,10 +59,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/*
 	*{
 		box-sizing: border-box;
 	}
+*/
 	.main{
+		height: 100%;
+/*		font-size: 0;*/
 		background-color: black;
 /*		overflow: hidden;*/
 /*		margin:0 auto;*/
@@ -65,19 +75,35 @@ export default {
 	}
 	.main-left{
 		width: 300px;
-		height: 500px;
+		height: 400px;
 		background-color: #98FF1A;
-/*		float: left;*/
+		float: left;
+/*
 		display: inline-block;
+		vertical-align:top
+*/
 	}		
+	.main-top {
+		height: 78px;
+		margin-left: 300px;
+		background: #fd1;
+	}
 	.main-center{
-		width: calc(100% - 610px);
+/*		width: calc(100% - 500px);*/
 		background-color: #8E8DCC;
-		height: 500px;
+		height: 100%;
+		padding: 10px;
+/*
 		display: inline-block;
+		vertical-align:top
+*/
+	}
+	.main-center div {
+		height: 100%;
+		background-color:#7CC0FF;
 	}
 	.main-right{
-		width: 300px;
+		width: 200px;
 		height: 500px;
 		background-color:#7CC0FF;
 /*		float: right;*/
@@ -86,5 +112,6 @@ export default {
 		right: 0;
 */
 		display: inline-block;
+		vertical-align:top
 	}
 </style>
