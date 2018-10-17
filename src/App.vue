@@ -1,8 +1,8 @@
 <template>
-	<div id="app" style="height:100%;">
-		<mMenu></mMenu>
+	<div id="app">
+		<mMenu :contentHeight="contentHeight"></mMenu>
 		<mHeader></mHeader>
-		<div class="box" style="background-color:#F3F3F3;padding: 15px 15px 0;height:100%;overflow:auto;">
+		<div class="box" :style="`height:${contentHeight}px;background-color:#F3F3F3;padding: 15px 15px 0;overflow:auto;`">
             <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key = 'index' :to="{ path: item.path }">{{item.label}}</el-breadcrumb-item>
             </el-breadcrumb> -->
@@ -15,7 +15,7 @@
 <script>
 import mMenu from './view/public/menu.vue';
 import mHeader from './view/public/header.vue';
-
+//import {mapState} from 'vuex'
 export default {
   	name: 'App',
 	components: {
@@ -24,10 +24,16 @@ export default {
 	},
 	data() {
 		return {
+			contentHeight: window.innerHeight - 78,
 			isShowBack: false
 		}
 	},
-	mounted() {},
+	mounted() {
+		window.onresize = function() {
+			this.contentHeight = window.innerHeight - 78;
+			console.log(this.contentHeight);
+		}
+	},
 	methods: {
 		goBack: function() {
             this.$router.back();

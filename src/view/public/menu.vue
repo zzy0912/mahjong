@@ -35,11 +35,11 @@
     }
 </style>
 <template>
-	<div :style="`width:${showWidth}px;height:100%;padding-top:78px;position:relative`" class="left box">
-        <div class="header" style="position:absolute;top:0;left:0;">
+	<div :style="`width:${showWidth}px;`" class="left">
+        <div class="header">
             <img src="../../assets/logo.png" style="margin:15px 0 0 10px;width:90%;"/>
         </div>
-		<el-menu class="thin-scroll" style="height:100%;border-right:none;overflow-y:auto;" text-color="#52689F" active-text-color="#364570" :default-active="currentPage" :collapse=false>
+		<el-menu class="thin-scroll" :style="`height:${contentHeight}px;border-right:none;overflow-y:auto;`" text-color="#52689F" active-text-color="#364570" :default-active="currentPage" :collapse=false>
 			<el-menu-item index="home" @click="goChild('home')">
 				<i class="iconfont icon-home"></i>
 				<span slot="title">主页</span> 
@@ -101,8 +101,10 @@
 import {mapState} from 'vuex'
 export default {
     name: 'mahjong-menu',
+	props: ['contentHeight'],
     data() {
         return {
+//			height: window.height - 78,
 //			showWidth: this.$store.state.showWidth,
             currentPage: ''
         };
@@ -114,6 +116,7 @@ export default {
 		...mapState(['showWidth']) // 引入vuex 里的变量
 	},
     mounted() {
+//		console.log('wwwww'+this.$store.state.contentHeight);
         var tabName = this.$route.name;
         this.currentPage = tabName;
 //		Bus.$on('isShowMenu', (msg) => {

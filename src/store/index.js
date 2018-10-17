@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-	pageTotal: 0,
+	contentHeight: window.innerHeight - 78,
   	showWidth: 220
 };
 
@@ -42,9 +42,9 @@ const actions ={
 //        }
 }
 
-const getters={    //对count的属性进行操作，只要count有任何变化，结果都会+100
-//    count:function(state){
-//         return state.count +=100;
+const getters={   //对count的属性进行操作，只要count有任何变化，结果都会+100
+//    contentHeight:function(state) {
+//         return state.contentHeight -= 78;
 //    }
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="box" style="float:left;width:100%;height:100%;">
 		<div class="white-bg box" style="padding:10px 20px;height:60px;">
 			<el-input placeholder="请输入内容" v-model="searchLabel" class="input-with-select" style="max-width:360px;">
 				<el-select v-model="selectType" slot="prepend" placeholder="请选择" style="width:80px;">
@@ -9,9 +9,13 @@
 				<el-button slot="append" icon="el-icon-search" @click="search"></el-button>
 			</el-input>
 		</div>
-		<div class="table-css" style="height:100%;overflow:hidden;">
+		<div class="table-css" style="height:auto;overflow:auto;">
 			<div class="left locker">
-				<h5>小琪麻将馆<br>10009933</h5>
+				<div class="locker-title">
+					<h5>小琪麻将馆</h5>
+					<div></div>
+				</div>
+				
 				<ul class="device-list">
 					<li>
 						<div>编号：90010<span class="right red">●</span></div>
@@ -27,41 +31,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="left locker">
-				<h5>小琪麻将馆<br>10009933</h5>
-				<ul class="device-list">
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right success-font">●</span></div>
-<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
-					</li>
-				</ul>
-			</div>
-			<div class="left locker">
-				<h5>小琪麻将馆<br>10009933</h5>
-				<ul class="device-list">
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right success-font">●</span></div>
-<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
-					</li>
-				</ul>
-			</div>
-		</div>
+		</div>	
 	  	<mpage @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></mpage>
 	</div>
 </template>
@@ -178,13 +148,23 @@ export default {
 <style>
 	.locker {
 		width: 200px;
-		margin-left: 10px;
-		border: 1px solid #52689F;
+		margin: 10px 0 10px 10px;
+		border: 1px solid #dcdfe6;
+	}
+	.locker:first-child {
+		margin-left: 0;
+	}
+	.locker-title {
+		background-color: #f5f7fa;
+		padding: 10px;
 	}
 	.device-list {
-		padding: 10px;
-		border-top: 1px solid #52689F;
+		border-top: 1px solid #dcdfe6;
 		height: 300px;
 		overflow: auto;
+	}
+	.device-list li {
+		padding: 10px;
+		border-bottom: 1px solid #dcdfe6;
 	}
 </style>

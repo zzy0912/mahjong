@@ -32,3 +32,8 @@ a, .blue {
 	height: 78px;
 	color:#fff;
 }
+.table-css {
+  margin: 15px 0;
+  padding: 20px;
+  background: #ffffff;
+}

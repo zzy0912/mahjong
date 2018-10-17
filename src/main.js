@@ -11,6 +11,7 @@ import router from './router';
 import VueResource from 'vue-resource';
 import VueCookie from 'vue-cookie';
 import store from './store';
+import filter from './filter';
 
 // 引入样式
 import './common/css/common.scss';
@@ -31,27 +32,6 @@ let ie_version = Cue.domUtil.getIEVersion();
 if (ie_version > 0 && ie_version < 9.0) {
     document.getElementById('app').innerHTML = '您的IE浏览器版本过低，请使用9.0以上版本的IE浏览器访问！';
 } else {
-	Vue.filter('formatDate', function(date, type) {
-		if (!date) {
-			return '';
-		}
-		var y = date.getFullYear();
-		var m = date.getMonth() + 1;
-		m = m < 10 ? '0' + m : m;
-		var d = date.getDate();
-		d = d < 10 ? ('0' + d) : d;
-		var out = y + '-' + m + '-' + d;
-		if (type === 'ss') {
-			let h = date.getHours();
-			h = h < 10 ? ('0' + h) : h;
-			let mi = date.getMinutes();
-			mi = mi < 10 ? ('0' + mi) : mi;
-			let s = date.getSeconds();
-			s = s < 10 ? ('0' + s) : s;
-			out += ' ' + h + ':' + mi + ':' + s;
-		}
-		return out;
-	});
     // 关闭vue在生产环境时生成的提示
     Vue.config.productionTip = false;
     // Vue平台上安装模块
@@ -59,11 +39,12 @@ if (ie_version > 0 && ie_version < 9.0) {
 	Vue.use(VueCookie);
     Vue.use(Cue);
     Vue.use(elementUI);
-    let vmConfig = { el: '#app', router, store, render: h => h(App) };
+    let vmConfig = { el: '#app', router, store, filters: filter, render: h => h(App) };
 
     // 检查是否登录，如果没有登录，跳转到登录界面
     let token = 1; // Vue.cookie.get('token');
     if (token) {
+//		window.height = window.innerHeight;
         let vm = new Vue(vmConfig);     // eslint-disable-line
         router.beforeEach((to, from, next) => Cue.uiService.closeDialogByGoBack(vm, next));
     } else {

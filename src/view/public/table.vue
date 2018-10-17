@@ -1,9 +1,4 @@
 <style>
-    .table-css {
-	  margin: 15px 0;
-	  padding: 20px;
-	  background: #ffffff;
-	}
 	.demo-table-expand {
 	  font-size: 0;
 	}
