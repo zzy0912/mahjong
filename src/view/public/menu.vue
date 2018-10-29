@@ -35,24 +35,30 @@
     }
 </style>
 <template>
-	<div :style="`width:${showWidth}px;`" class="left">
+	<div :style="`width:${showWidth}px;position:relative;height:100%;overflow:hidden;`" class="left">
         <div class="header">
             <img src="../../assets/logo.png" style="margin:15px 0 0 10px;width:90%;"/>
         </div>
-		<el-menu class="thin-scroll" :style="`height:${contentHeight}px;border-right:none;overflow-y:auto;`" text-color="#52689F" active-text-color="#364570" :default-active="currentPage" :collapse=false>
-			<el-menu-item index="home" @click="goChild('home')">
+		<el-menu class="thin-scroll" style="border-right:none;overflow-y:auto;position:absolute;top:78px;left:0;bottom:0;width:100%;" text-color="#52689F" active-text-color="#364570" :default-active="currentPage" :collapse=false>
+			<el-menu-item index="show" @click="goChild('home')">
 				<i class="iconfont icon-home"></i>
 				<span slot="title">主页</span> 
+			</el-menu-item>
+			<el-menu-item index="org" @click="goChild('org')">
+				<i class="iconfont icon-message"></i>
+				<span slot="title">组织管理</span> 
 			</el-menu-item>
 			<el-menu-item index="locker" @click="goChild('locker')">
 				<i class="iconfont icon-message"></i>
 				<span slot="title">设备管理</span> 
 			</el-menu-item>
+<!--
 			<el-menu-item index="machine" @click="goChild('machine')">
 				<i class="iconfont icon-message"></i>
 				<span slot="title">机器管理</span> 
 			</el-menu-item>
-			<el-menu-item index="match" @click="goChild('match')">
+-->
+			<el-menu-item index="game" @click="goChild('game')">
 				<i class="iconfont icon-owner"></i>
 				<span slot="title">比赛管理</span> 
 			</el-menu-item>
@@ -77,6 +83,7 @@
 				<i class="iconfont icon-upload"></i>
 				<span slot="title">版本管理</span>
 			</el-menu-item>
+<!--
 			<el-menu-item index="version" @click="goChild('version')">
 				<i class="iconfont icon-upload"></i>
 				<span slot="title">版本管理</span>
@@ -93,6 +100,7 @@
 				<i class="iconfont icon-upload"></i>
 				<span slot="title">版本管理</span>
 			</el-menu-item>
+-->
 		</el-menu>
 	</div>
 </template>
@@ -101,7 +109,6 @@
 import {mapState} from 'vuex'
 export default {
     name: 'mahjong-menu',
-	props: ['contentHeight'],
     data() {
         return {
 //			height: window.height - 78,
@@ -115,7 +122,14 @@ export default {
 //		}
 		...mapState(['showWidth']) // 引入vuex 里的变量
 	},
+	created() {
+		console.log("menuCreated");
+	},
+	beforeMount() {
+		console.log("menuBeforeMount");
+	},
     mounted() {
+		console.log("menuMounted");
 //		console.log('wwwww'+this.$store.state.contentHeight);
         var tabName = this.$route.name;
         this.currentPage = tabName;

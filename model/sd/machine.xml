@@ -1,91 +1,17 @@
 <model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../common/xsd/model.xsd" label="Machine">
     <fields>
-        <field name="id" type="long" label="ID" allow-empty="false"/>
+        <field name="id" type="long" label="编号" allow-empty="false"/>
         <field name="label" type="string" label="Label" />
-        <field name="serial" type="string" label="Serial" length="1024"/>
+        <field name="status" type="enum:status" label="状态"/>
         <field name="createTime" type="date" label="Create Time"/>
-        <field name="creator" type="user" label="Creator" />        
+        <field name="mahjong" type="mahjong" label="麻将商户" />        
     </fields>
-
-    <imports>
-        <import name="xls" type="xls" start-line="2" label="XLS File|XLS File" range="list" encoding="GBK" fields="label;serial"/>
-    </imports>
-    <exports>
-        <export name="xls" type="xls" encoding="GBK" label="XLS File|XLS File" range="list" />
-    </exports>
-
-    <views>
-         <view name="home" type="main">
-            <div class="view-body-flex">
-
-                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
-                    <div title="Machine" style="width: 100%; height: 100%">
-                        <grid><!--  data-dojo-props="editPopup: true" -->
-                            <query target="bulletin" expand="id(60)|label|serial">
-                                <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
-                                <axis-y>
-                                    <node>
-                                        <subnode type="machine" create-view="create" filter="">
-                                            <permission target="org" id="$opOrg.id" action="list"/>
-                                        </subnode>
-                                    </node>
-                                </axis-y>
-                            </query>
-                        </grid>
-                    </div>
-
-                </tabs>
-            </div>
-         </view>
-
-         <view name="home2" type="main">
-            <div class="view-body-flex">
-
-                <tabs style="width: 100%; height: 100%; flex-grow: 1;">
-                    <div title="Machine" style="width: 100%; height: 100%">
-                        <grid><!--  data-dojo-props="editPopup: true" -->
-                            <query target="bulletin" expand="id(60)|label|serial">
-                                <toolbar action-header-filter="true" action-config-column="true" action-export="true" action-import="true"/>
-                                <axis-y>
-                                    <node>
-                                        <subnode type="machine" create-view="create" filter="">
-                                            <permission target="org" id="$opOrg.id" action="list"/>
-                                        </subnode>
-                                    </node>
-                                </axis-y>
-                            </query>
-                        </grid>
-                    </div>
-
-                </tabs>
-            </div>
-         </view>
-
-        <view name="create" type="item">
-            <def hide-op="true" hide-history="true"/>
-            <entity>
-                <vbox>
-                    <panel title="Basic">
-                        <vbox contain="label|serial"/>
-                    </panel>
-                </vbox>
-            </entity>
-        </view>
-     </views>
-      
-     <workflow>
-        <global-actions>
-            <action name="save" label="Save" trait="save" group="common" use-in-popup="true" icon-class="fa fa-save"  restrict-to="$opUser.type == admin">
-            </action>
-            <action name="delete" label="Delete" trait="delete" group="common"  use-in-popup="false" icon-class="fa fa-close" restrict-to="isFieldMatch(id,GT,0) AND $opUser.type == admin"/>
-        </global-actions>
-        <global-views>
-            <view name="create" restrict-to=""/>
-        </global-views>
-     </workflow>
-    
-    
-    
-    
+	<enums>
+        <enum name="status" label="状态" editable="false">
+            <item name="normal" label="正常"/>
+            <item name="loan" label="出借中"/>
+            <item name="inactive" label="停用"/>
+        </enum>
+    </enums>
 </model>

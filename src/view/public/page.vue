@@ -16,7 +16,7 @@ export default {
     name: 'mahjong-page',
     data() {
         return {
-			pageCount: 6,
+			pageCount: 10,
 			currentPage: 1
         };
     },

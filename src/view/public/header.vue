@@ -26,7 +26,7 @@
     }
 </style>
 <template>
-<div :style="`margin-left:${showWidth}px;`">
+<div :style="`left:${showWidth}px;transition:left .3s ease-in-out;position:absolute;z-index:9;right:0;`">
     <div class="header main-bg">
 		<div class="header left" style="width:67px;background:#fff;" v-show="showWidth===0">
 			<img src="../../assets/logo-small.png" style="margin:15px 0 0 10px;width:80%;"/>
@@ -74,13 +74,20 @@ export default {
             form: {}
         };
     },
+	created() {
+		console.log("headerCreated");
+	},
 	computed: {
 //		showWidth () {
 //		  	return this.$store.state.showWidth
 //		}
 		...mapState(['showWidth']) // 引入vuex 里的变量
 	},
+	beforeMount() {
+		console.log("headerBeforeMount");
+	},
     mounted() {
+		console.log("headerMounted");
     },
     methods: {
         showPsw: function() {

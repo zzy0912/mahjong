@@ -15,57 +15,81 @@
 <template>
 	<div class="table-css">
 		<el-table
-			style="height:100%"
+			:height="tableHeight"
 			:data="tableData">
-			<el-table-column v-for="item in tableValue"
-			:key="item.prop"
-			:fixed="item.btn?'right':''"
-			:prop="item.prop"
-			:label="item.label">
-			<template slot-scope="scope" v-if="item.link">
-				<router-link :to="{name: item.link, params:{id:scope.row.id}}">{{ scope.row[item.prop]}}</router-link>
+          	<template v-for="(item, index) in tableValue">
+				<el-table-column v-if="item.template"
+				:key="index"
+				:fixed="item.btns?'right':''"
+				:label="item.label">
+				<template slot-scope="scope">
+					<router-link v-if="item.link" :to="{name: item.link, params: {id:scope.row.id}, meta: scope.row.label }">{{ scope.row.label}}</router-link>
+					<span v-if="item.enum">{{scope.row[item.prop].label}}</span>
+					
+					<span v-if="item.time">{{scope.row[item.prop] | formatDate}}</span>
+					<el-tag v-if="item.tag" :type="scope.row.status===1?'success':'danger'">{{scope.row.status===1?'活跃':'禁用'}}</el-tag>
+					<div v-if="item.org">
+						<div v-for="(man,index1) in scope.row.manager" :key = 'index1'>
+							<span>{{man.instance.label}}</span>
+							<span>{{man.instance.phone}}</span>
+						</div>
+					</div>
+<!--					<my-render v-if="item.render" :row="scope.row" :render="item.render"></my-render>-->
+					<div v-if="item.btns">
+						<el-button v-for="btn in item.btns" :key="btn.id" type="text" size="small" @click="handleOperation(btn.id, scope.row.id)">{{btn.label}}</el-button>
+					</div>
+				</template>
+				</el-table-column>
+				<el-table-column
+					v-else
+					:label="item.label"
+					:prop="item.prop"
+					:key="index">
+				</el-table-column>
 			</template>
-			<template slot-scope="scope" v-if="item.time">
-				{{scope.row[item.prop] | formatDate}}
-			</template>
-			<template slot-scope="scope" v-if="item.tag">
-				<el-tag :type="scope.row.status===1?'success':'danger'">{{scope.row.status===1?'活跃':'禁用'}}</el-tag>
-			</template>
-			<template slot-scope="scope" v-if="item.btn">
-				<el-button type="text" size="small" @click="disableUSer(scope.row)">{{scope.row.status===1?'禁用':'解禁'}}</el-button>
-			</template>
-			</el-table-column>
 		</el-table>
 	</div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import myRender from './myRender.vue';
 export default {
     name: 'mahjong-table',
 	props: ['tableValue', 'call'],
+	components: {
+		myRender
+	},
     data() {
         return {
 			tableData: []
         };
     },
 	computed: {
-//		showWidth () {
-//		  	return this.$store.state.showWidth
-//		}
-		...mapState(['pageTotal']) // 引入vuex 里的变量
+		tableHeight () {
+			let height = this.$store.state.contentHeight;
+			if (this.$store.state.isShowBack) {
+				height = height - 177;
+			} else {
+				height = height - 177;
+			}
+			return height;
+		}
 	},
     mounted() {
-		console.log(this.tableValue);
+		console.log(this.contentHeight);
     },
     methods: {
 		getEntities: function() {
 			this.$cue.remoteService.call(this.call.service||'model', this.call.method||'getEntities', this.call.para).then((res) => {
 				this.$store.state.pageTotal = res.totalCount;
                 this.tableData = res.list;
+                console.log(this.tableData);
             }, () => {
 				this.$store.state.pageTotal = 1;
                 this.tableData = [];
 			});
+		},
+		handleOperation(btn, id) {
+			this.$emit('handleOperation', btn, id);
 		}
     }
 };

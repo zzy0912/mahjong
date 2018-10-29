@@ -1,117 +1,64 @@
 <template>
-<!--	<div>-->
-		<div class="main">
-			<div class="main-left">111</div>
-			<div class="main-top"></div>
-			<div class="main-center box"><div></div></div>
-<!--			<div class="main-right"></div>-->
-		</div>
-<!--	</div>-->
-	
+	<div class="home">
+		<mMenu></mMenu>
+		<mHeader></mHeader>
+		<div class="box" :style="`background-color:#F3F3F3;padding: 15px 15px 0;overflow:auto;position: absolute;top: 78px;left:${showWidth}px;bottom:0;right:0;transition: left .3s ease-in-out;`">
+            <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+                <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key = 'index' :to="{ path: item.path }">{{item.label}}</el-breadcrumb-item>
+            </el-breadcrumb> -->
+            <div v-show="isShowBack" id="backBtn" class="main-font" style="padding: 10px 0;font-size:16px;cursor:pointer;" @click="goBack"><i class="el-icon-back"></i>&nbsp;&nbsp;返回</div>
+            <router-view style="height:100%;width:auto;"></router-view>
+        </div>
+	</div>
 </template>
 
 <script>
+import mHeader from './public/header.vue';
+import mMenu from './public/menu.vue';
+
+import {mapState} from 'vuex';
 export default {
-	name: 'home',
-	data () {
+  	name: 'App',
+	components: {
+		mHeader,
+		mMenu
+	},
+	data() {
 		return {
-		  message: 'Welcome to Your Vue.js App',
-		};
+//			contentHeight: window.innerHeight - 78,
+//			isShowBack: false,
+			timer: false
+		}
 	},
 	computed: {
-		count () {
-		  	return this.$store.state.count
-		},
-		exapm:{
-            cache:false,
-            get:function(){
-                return Date.now()
-            }
-        },
-		jxmessage: function() {
-			console.log("read");
-			return this.message.length;
-		}
+//		showWidth () {
+//		  	return this.$store.state.showWidth
+//		}
+		...mapState(['isShowBack', 'showWidth']) // 引入vuex 里的变量
 	},
-	mounted: function(){
+	created() {
+		console.log("homeCreated");
+	},
+	beforeMount() {
+		console.log("homeBeforeMount");
+	},
+	mounted() {
+		console.log("homeMounted");
+		window.onresize = () => {
+			if (!this.timer) {
+				this.timer = true;
+				setTimeout(() => {
+					this.timer = false;
+					this.$store.state.contentHeight = window.innerHeight - 78;
+					console.log(this.contentHeight);
+				}, 500);
+			}
+		}
 	},
 	methods: {
-		inc () {
-		  	this.$store.commit('inc')
-		},
-		dec () {
-			this.$store.commit('dec')
-		},
-		changeMes: function() {
-			console.log("ss");
-			if (this.message.length === 20) {
-				return;
-			}
-			this.message = this.message.substr(0, this.message.length-1);
-		},
-		jxmessage2: function() {
-			console.log("read2");
-			return this.message.length;
-		}
+		goBack: function() {
+            this.$router.back();
+        }
 	}
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-/*
-	*{
-		box-sizing: border-box;
-	}
-*/
-	.main{
-		height: 100%;
-/*		font-size: 0;*/
-		background-color: black;
-/*		overflow: hidden;*/
-/*		margin:0 auto;*/
-/*		height: 700px;*/
-/*		position:relative; */
-	}
-	.main-left{
-		width: 300px;
-		height: 400px;
-		background-color: #98FF1A;
-		float: left;
-/*
-		display: inline-block;
-		vertical-align:top
-*/
-	}		
-	.main-top {
-		height: 78px;
-		margin-left: 300px;
-		background: #fd1;
-	}
-	.main-center{
-/*		width: calc(100% - 500px);*/
-		background-color: #8E8DCC;
-		height: 100%;
-		padding: 10px;
-/*
-		display: inline-block;
-		vertical-align:top
-*/
-	}
-	.main-center div {
-		height: 100%;
-		background-color:#7CC0FF;
-	}
-	.main-right{
-		width: 200px;
-		height: 500px;
-		background-color:#7CC0FF;
-/*		float: right;*/
-/*
-		position: absolute;
-		right: 0;
-*/
-		display: inline-block;
-		vertical-align:top
-	}
-</style>

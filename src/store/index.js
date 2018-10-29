@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
+	isShowBack: false,
+    pageTotal: 0,
 	contentHeight: window.innerHeight - 78,
   	showWidth: 220
 };

@@ -68,7 +68,7 @@ function _showErrorMessage(failInfo, err, showServerErrorMsg) {
 function _handleCallError(reject, isBatchCall, callSn, response, failInfo, showServerErrorMsg) {
     // 判断是否登录，如果未登录，转入登录页面
     if (response.status === 401) {
-        window.location = '/login.html#redirect=' + encodeURIComponent(window.location);
+        window.location = '/#/login#redirect=' + encodeURIComponent(window.location);
     } else {
         let err = _getCallResponseError(response);
         if (_inDevelopment || window.remoteServiceShowLog) {
@@ -181,6 +181,7 @@ export default {
     },
     call: function(service, method, para, failInfo, showServerErrorMsg, headers) {
         // 显示调用
+		showServerErrorMsg = true;
         let call_sn = _logCall(service, method, para);
         // 如果para不是一个对象，无法json化，所以构造一个对象传递。
         para = objectUtil.isObject(para) ? para : { __para: para };
@@ -204,6 +205,7 @@ export default {
     },
 
     batchCall: function(calls, failInfo, transaction, showServerErrorMsg, headers) {
+		showServerErrorMsg = true;
         // 显示调用
         let call_sn = _logBatchCall(calls);
 
@@ -304,7 +306,7 @@ export default {
     logout: function() {
         Vue.cookie.set('token', null, { path: '/', expires: 0 });
         // 跳转到登录页面
-        window.location = '/login.html';
+        window.location = '/#/login';
     },
 
     getLoginUser: function(retFields) {

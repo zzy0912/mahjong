@@ -1,5 +1,5 @@
 <template>
-	<div class="box" style="float:left;width:100%;height:100%;">
+	<div style="height:100%;overflow:hidden;">
 		<div class="white-bg box" style="padding:10px 20px;height:60px;">
 			<el-input placeholder="请输入内容" v-model="searchLabel" class="input-with-select" style="max-width:360px;">
 				<el-select v-model="selectType" slot="prepend" placeholder="请选择" style="width:80px;">
@@ -9,44 +9,21 @@
 				<el-button slot="append" icon="el-icon-search" @click="search"></el-button>
 			</el-input>
 		</div>
-		<div class="table-css" style="height:auto;overflow:auto;">
-			<div class="left locker">
-				<div class="locker-title">
-					<h5>小琪麻将馆</h5>
-					<div></div>
-				</div>
-				
-				<ul class="device-list">
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right red">●</span></div>
-						<div>出借人：张三<span class="right">2018-06-04</span></div>
-					</li>
-					<li>
-						<div>编号：90010<span class="right success-font">●</span></div>
-<!--						<div>出借人：张三<span class="right success-font">2018-06-04</span></div>-->
-					</li>
-				</ul>
-			</div>
-		</div>	
+		<mTable ref="table" :tableValue="tableValue" :call="call"></mTable>
 	  	<mpage @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></mpage>
 	</div>
 </template>
 
 <script>
-import mTable from './public/table.vue';
-import mpage from './public/page.vue';
+import mTable from './../public/table.vue';
+import mpage from './../public/page.vue';
 var searchKey, selectType;
 var para = {
-    target: 'appUser',
-    retFields: ['id', 'alipayId', 'wechatId', 'phone', 'status', 'lastLoginTime', 'deviceAlias', 'balance'],
+    target: 'member',
+    retFields: ['phone', 'account', 'balance', 'birth', 'gender', 'registerTime'],
     orderBy: ['id desc']
 };
 export default {
-    props: [ 'tableHeight'],
 	components: {
 		mTable, mpage
 	},
@@ -60,25 +37,36 @@ export default {
     },
 	created: function() {
 		this.tableValue = [{
-			prop: 'lockerNo',
-			label: '编号'
+			prop: 'label',
+			label: '用户',
+			template: true,
+			link: 'appUserItem'
 		}, {
-			prop: 'shop',
-			label: '所属商店'
+			prop: 'account',
+			label: '账号'
+		}, {
+			prop: 'phone',
+			label: '电话'
 		}, {
 			prop: 'balance',
 			label: '余额（元）'
 		}, {
 			prop: 'birth',
+			template: true,
+			time: true,
 			label: '生日'
 		}, {
 			prop: 'gender',
+			template: true,
+			enum: true,
 			label: '性别'
 		}, {
 			prop: 'registerTime',
 			label: '注册时间',
+			template: true,
 			time: true
 		}];
+		this.call.para = para;
 	},
     mounted: function() {
         searchKey = null;
@@ -146,25 +134,4 @@ export default {
 </script>
 
 <style>
-	.locker {
-		width: 200px;
-		margin: 10px 0 10px 10px;
-		border: 1px solid #dcdfe6;
-	}
-	.locker:first-child {
-		margin-left: 0;
-	}
-	.locker-title {
-		background-color: #f5f7fa;
-		padding: 10px;
-	}
-	.device-list {
-		border-top: 1px solid #dcdfe6;
-		height: 300px;
-		overflow: auto;
-	}
-	.device-list li {
-		padding: 10px;
-		border-bottom: 1px solid #dcdfe6;
-	}
 </style>

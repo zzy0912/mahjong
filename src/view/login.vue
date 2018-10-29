@@ -280,7 +280,7 @@ export default {
                 if (redirect) {
                     redirect = decodeURIComponent(redirect);
                 } else {
-                    redirect = '/home.html';
+                    redirect = '/#/home';
                 }
                 Vue.http.post('/rest/model/getEntities', JSON.stringify({
                     target: 'orgRoleUser',
